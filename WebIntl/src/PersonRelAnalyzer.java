@@ -3,7 +3,7 @@ public class PersonRelAnalyzer {
 	/**
      * CaboChaの係り受け解析を試す例
      */
-	public void getPhrases(Chunk headChunk, String joshi) {
+	public static void getPhrases(Chunk headChunk, String joshi) {
 		List<Chunk> dependents = headChunk.getDependents();
 		for (Chunk dependent: dependents) {
         	Morpheme headMorph = dependent.getHeadMorpheme();
@@ -17,7 +17,7 @@ public class PersonRelAnalyzer {
         		System.out.println("助詞の「の」がついた語句:"+topic);
         	}
         	else {
-        		getPhrases(Chunk dependent, joshi);
+        		getPhrases(dependent, joshi);
         	}
         }
 	}
