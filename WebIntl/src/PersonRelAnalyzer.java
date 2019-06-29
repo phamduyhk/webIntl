@@ -37,10 +37,6 @@ public class PersonRelAnalyzer {
 //            System.out.println(headChunk);
             // 主辞に係る文節のリストを返す
             final List<Chunk> dependents = headChunk.getDependents();
-//            System.out.println(dependents);
-//            
-           
-            
             for (final Chunk dependent : dependents) {
                 // 文節dependentの主辞（最後の形態素）を取得
                 final Morpheme headMorph = dependent.getHeadMorpheme();

@@ -13,7 +13,8 @@ public class CaboCha extends DepParser {
 	static Process caboChaPrc;
 	static PrintWriter caboChaOut;
 	static BufferedReader caboChaIn;
-	static String cabochaCmd = "/opt/cse/bin/cabocha -f1";
+//	static String cabochaCmd = "/opt/cse/bin/cabocha -f1";
+	static String cabochaCmd = "/usr/local/bin/cabocha -f1";
 	//static String cabochaCmd = "C:/Program Files (x86)/CaboCha/bin/cabocha.exe -f1";
 	static String encoding = "UTF-8";
 
