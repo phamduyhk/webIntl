@@ -1,4 +1,8 @@
-import java.util.List;
+import java.io.*;
+import java.util.*;
+import java.util.regex.*;
+import java.net.*;
+import javax.net.ssl.*;
 public class PersonRelAnalyzer {
 	/**
      * CaboChaの係り受け解析を試す例
@@ -21,7 +25,37 @@ public class PersonRelAnalyzer {
         	}
         }
 	}
+	/**
+     * 与えられたURLからHTML等のコンテンツを取得し，返す．
+     * @param url 取得するコンテンツのURL
+     * @param enc コンテンツの文字コード（UTF-8やEUC-JP, Shift_JISなど）
+     * @return コンテンツ
+     */
+    public static String getWebContent(String url, String enc) {
+	StringBuffer sb = new StringBuffer();
+	try {
+	    BufferedReader in = null;
+	    if (url.startsWith("https")) {
+		HttpsURLConnection conn = (HttpsURLConnection)new URL(url).openConnection();
+		in = new BufferedReader(new InputStreamReader(conn.getInputStream(), enc));
+	    } else {
+		URLConnection conn = new URL(url).openConnection();
+		in = new BufferedReader(new InputStreamReader(conn.getInputStream(), enc));
+	    }
+	    for (String line = in.readLine(); line != null; line = in.readLine()) {
+		sb.append(line);
+		sb.append("\n");
+	    }
+	} catch (IOException e) {
+	    e.printStackTrace();
+	}
+	return sb.toString();
+    }
     public static void main(final String[] args) {
+    	String url = "https://www.aozora.gr.jp/cards/000009/files/50717_36994.html"; // 「まだらのひも」のURL
+        String html = getWebContent(url, "Shift_JIS");  // 取得するコンテンツの文字コードに合わせて変える
+        System.out.println(html);
+        
         final String text = "知ってた？隣のお客さんはたくさん柿を食べるって。"; // 解析対象のテキスト
         System.out.println("解析対象のテキスト: "+text);
 
