@@ -1,7 +1,9 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 文を表すクラス．
@@ -128,6 +130,49 @@ class Sentence extends ArrayList<Chunk> {
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * 解析した文を述語項構造を表すPredArgStructオブジェクトへ変換するメソッド
+	 * @return 述語項構造を返す
+	 */
+	
+	public PredArgs getPredArgStruct() {
+		PredArgs args = new PredArgs();
+		for(Chunk element:this) {
+    		int dependency = element.getDependency();
+    		if(dependency<0) {
+    			PredArgStruct predArg = new PredArgStruct();
+    			Morpheme headMorpheme = element.getHeadMorpheme();
+//    			System.out.print(element.get(0).getBaseform());
+    			predArg.setPred(element.get(0));
+    			List<Chunk> dependents = element.getDependents();
+    			for(Chunk dependent:dependents) {
+    				if(dependent.getHeadMorpheme().getPos().contains("助詞")&&
+    						dependent.getHeadMorpheme().getSurface().equals("が")) {
+    					   String caseStr = "";
+//    					   System.out.println(dependent.getDependency());
+    				         for (int i = 0; i < dependent.size()-1; i++) {
+    				           caseStr += dependent.get(i).getSurface();
+    					 } 
+    				    String key = "ガ格";
+    				    predArg.addArgs(key, caseStr);
+    				}
+    				if(dependent.getHeadMorpheme().getPos().contains("助詞")&&
+    						dependent.getHeadMorpheme().getSurface().equals("に")) {
+    					 String caseStr = "";
+				         for (int i = 0; i < dependent.size()-1; i++) {
+				           caseStr += dependent.get(i).getSurface();
+					 }
+    					String key = "ニ格";
+    				    predArg.addArgs(key, caseStr);
+    				}
+    			}
+    	  		args.addPredArgSruct(predArg);
+    		}
+    	}
+		return args;
+		
 	}
 
 
